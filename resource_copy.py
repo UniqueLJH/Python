@@ -1,12 +1,14 @@
 import os
 import shutil
 import sys
+import Image
 class Resource_copy(object):
     def __init__(self,para1,para2,para3,para4):
         self.rootpath = para1
         self.name = para2
         self.a,self.extension = os.path.splitext(para3)
         self.targetpath = para4
+        self.jpglist= ['.png','.jpg','.jpeg','.gif','.bmp']
     def exist_targetpath(self):
         if os.path.exists(self.targetpath):
             recover__bo = raw_input('targetpath already exists,Do u want to recover it?(Y/N)')
@@ -36,9 +38,21 @@ class Resource_copy(object):
                                 logwrite = "copy \""+a+"\" ok (exist)\r\n"
                                 logfile.write(logwrite)
                             else:
-                                print "copy \"%s\"  failed(exist but not same)"%(a)
-                                logwrite = "copy \""+a+"\" failed(exist but not same)\r\n"
-                                logfile.write(logwrite)
+                                if (files_extension in self.jpglist):
+                                    ima = Image.open(a)
+                                    imb = Image.open(b)
+                                    if ima.size = imb.size :
+                                        print "copy \"%s\"  failed(exist and is same picture)"%(a)
+                                        logwrite = "copy \""+a+"\" failed(exist and is same picture)\r\n"
+                                        logfile.write(logwrite)
+                                    else :
+                                        print "copy \"%s\"  failed(exist but not same)"%(a)
+                                        logwrite = "copy \""+a+"\" failed(exist but not same)\r\n"
+                                        logfile.write(logwrite)
+                                else:                                
+                                    print "copy \"%s\"  failed(exist but not same)"%(a)
+                                    logwrite = "copy \""+a+"\" failed(exist but not same)\r\n"
+                                    logfile.write(logwrite)
                         else:
                             open(b,"wb").write(open(a,"rb").read())
                             print "copy \"%s\"  ok"%(a)
